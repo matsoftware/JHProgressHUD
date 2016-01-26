@@ -42,7 +42,7 @@ class JHProgressHUD: UIView
         super.init(frame: CGRectZero)
     }
 
-    required init(coder aDecoder: NSCoder)
+    required init?(coder aDecoder: NSCoder)
     {
         headerColor = UIColor.whiteColor()
         footerColor = UIColor.whiteColor()
@@ -69,24 +69,24 @@ class JHProgressHUD: UIView
         self.frame = view.frame
         setIndicator()
         
-        if title != nil && !isCleanedStringEmpty(title)
+        if title != nil && title != ""
         {
             setTitleLabel(title!)
             titleLabel!.frame = CGRectMake(0, 0, getLabelSize().width, getLabelSize().height)
         }
-        if footer != nil && !isCleanedStringEmpty(footer)
+        if footer != nil && footer != ""
         {
             setFooterLabel(footer!)
             footerLabel!.frame = CGRectMake(0, 0, getLabelSize().width, getLabelSize().height)
         }
         setBackGround(self)
-        if title != nil && !isCleanedStringEmpty(title)
+        if title != nil && title != ""
         {
             titleLabel!.frame.origin = getHeaderOrigin(backGroundView!)
             titleLabel?.adjustsFontSizeToFitWidth = true
             backGroundView?.addSubview(titleLabel!)
         }
-        if footer != nil && !isCleanedStringEmpty(footer)
+        if footer != nil && footer != ""
         {
             footerLabel!.frame.origin = getFooterOrigin(backGroundView!)
             footerLabel?.adjustsFontSizeToFitWidth = true
@@ -132,12 +132,12 @@ class JHProgressHUD: UIView
         if backGroundView?.superview != nil
         {
             backGroundView?.removeFromSuperview()
-            var aView = backGroundView?.viewWithTag(1001) as UIView?
+            let aView = backGroundView?.viewWithTag(1001) as UIView?
             aView?.removeFromSuperview()
         }
         backGroundView = UIView(frame: getBackGroundFrame(self))
         backGroundView?.backgroundColor = UIColor.clearColor()
-        var translucentView = UIView(frame: backGroundView!.bounds)
+        let translucentView = UIView(frame: backGroundView!.bounds)
         translucentView.backgroundColor = backGroundColor
         translucentView.alpha = 0.85
         translucentView.tag = 1001;
@@ -191,16 +191,16 @@ class JHProgressHUD: UIView
     {
         let sideMargin:CGFloat = 20.0
         var side = progressIndicator!.frame.height + sideMargin
-        if titleLabel?.text != nil && !isCleanedStringEmpty(titleLabel?.text)
+        if titleLabel?.text != nil && titleLabel?.text != ""
         {
             side = progressIndicator!.frame.height + titleLabel!.frame.width
         }
-        else if (footerLabel?.text != nil && !isCleanedStringEmpty(footerLabel?.text))
+        else if (footerLabel?.text != nil && footerLabel?.text != "")
         {
             side = progressIndicator!.frame.height + footerLabel!.frame.width
         }
-        var originX = view.center.x - (side/2)
-        var originY = view.center.y - (side/2)
+        let originX = view.center.x - (side/2)
+        let originY = view.center.y - (side/2)
         return CGRectMake(originX, originY, side, side)
     }
     
@@ -208,8 +208,8 @@ class JHProgressHUD: UIView
     
     private func getLabelSize() -> CGSize
     {
-        var width = progressIndicator!.frame.width * 3
-        var height = progressIndicator!.frame.height / 1.5
+        let width = progressIndicator!.frame.width * 3
+        let height = progressIndicator!.frame.height / 1.5
         return CGSizeMake(width, height)
     }
     
@@ -217,38 +217,32 @@ class JHProgressHUD: UIView
     
     private func getIndicatorOrigin(view : UIView, activityIndicatorView indicator : UIActivityIndicatorView) -> CGPoint
     {
-        var side = indicator.frame.size.height
-        var originX = (view.bounds.width/2) - (side/2)
-        var originY = (view.bounds.height/2) - (side/2)
+        let side = indicator.frame.size.height
+        let originX = (view.bounds.width/2) - (side/2)
+        let originY = (view.bounds.height/2) - (side/2)
         return CGPointMake(originX, originY)
     }
     
     private func getHeaderOrigin(view : UIView) -> CGPoint
     {
-        var width = titleLabel!.frame.size.width
-        var originX = (view.bounds.width/2) - (width/2)
+        let width = titleLabel!.frame.size.width
+        let originX = (view.bounds.width/2) - (width/2)
         return CGPointMake(originX, 1)
     }
     
     private func getFooterOrigin(view : UIView) -> CGPoint
     {
-        var width = footerLabel!.frame.width
-        var height = footerLabel!.frame.height
-        var originX = (view.bounds.width/2) - (width/2)
-        var originY = view.frame.height - (height + 1)
+        let width = footerLabel!.frame.width
+        let height = footerLabel!.frame.height
+        let originX = (view.bounds.width/2) - (width/2)
+        let originY = view.frame.height - (height + 1)
         return CGPointMake(originX, originY)
-    }
-    
-    private func isCleanedStringEmpty(string: String) -> Bool
-    {
-        let cleanString = string.stringByTrimmingCharactersInSet(whiteSpaceAndNewlineCharacterSet)
-        return cleanString.isEmpty
     }
     
     // MARK: -Set Font
     func boldFontWithFont(font : UIFont?) -> UIFont
     {
-        var fontDescriptor : UIFontDescriptor = font!.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitBold)!
+        var fontDescriptor : UIFontDescriptor = font!.fontDescriptor().fontDescriptorWithSymbolicTraits(.TraitBold)
         return UIFont(descriptor: fontDescriptor, size: 0)
     }
     
